@@ -1,0 +1,59 @@
+# Arquivos de compilação
+bin/
+obj/
+
+# Arquivos de usuário do Visual Studio
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# Cache do Visual Studio
+.vs/
+
+# Arquivos temporários
+[Tt]emp/
+[Tt]mp/
+
+# Arquivos de log
+*.log
+
+# Arquivos de backup do Visual Studio
+*.[Bb]ak
+
+# Arquivos de publicação
+*.[Pp]ublish.xml
+*.azurePubxml
+*.pubxml
+*.publishproj
+
+# Arquivos de pacote NuGet
+*.nupkg
+# Pasta de pacotes pode ser ignorada por causa da restauração de pacotes
+**/[Pp]ackages/*
+# exceto build/, que é usado como um destino de MSBuild.
+!**/[Pp]ackages/build/
+
+# Arquivos do ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# Arquivos de teste
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# Arquivos específicos do .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Arquivos do Visual Studio Code
+.vscode/
+
+# Arquivos do Rider
+.idea/
+
+# Arquivos específicos do sistema operacional
+.DS_Store
+Thumbs.db
