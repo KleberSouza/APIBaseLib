@@ -1,5 +1,6 @@
 using APIBaseLib.Models;
 using APIBaseLib.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIBaseLib.Controllers
@@ -24,16 +25,19 @@ namespace APIBaseLib.Controllers
         /// <param name="pageSize">The page size (default is 10).</param>
         /// <returns>A paginated list of entities.</returns>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<TEntity>>> GetAll(int page = 1, int pageSize = 10)
         {
             try
             {
                 var entities = await _service.GetAllAsync(page, pageSize);
-                return this.GenerateHateoasLinks(entities);
+                return GenerateHateoasLinks(entities);
             }
             catch (Exception ex)
             {
-                return this.HandleException(ex);
+                return HandleException(ex);
             }
         }
 
@@ -43,16 +47,20 @@ namespace APIBaseLib.Controllers
         /// <param name="id">The ID of the entity.</param>
         /// <returns>The requested entity.</returns>
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<TEntity>> GetById(int id)
         {
             try
             {
                 var entity = await _service.GetByIdAsync(id);
-                return this.GenerateHateoasLinks(entity);
+                return GenerateHateoasLinks(entity);
             }
             catch (Exception ex)
             {
-                return this.HandleException(ex);
+                return HandleException(ex);
             }
         }
 
@@ -62,6 +70,9 @@ namespace APIBaseLib.Controllers
         /// <param name="entity">The entity to create.</param>
         /// <returns>The created entity.</returns>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<TEntity>> Create(TEntity entity)
         {
             try
@@ -71,7 +82,7 @@ namespace APIBaseLib.Controllers
             }
             catch (Exception ex)
             {
-                return this.HandleException(ex);
+                return HandleException(ex);
             }
         }
 
@@ -82,17 +93,21 @@ namespace APIBaseLib.Controllers
         /// <param name="entity">The updated entity.</param>
         /// <returns>The updated entity.</returns>
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<TEntity>> Update(int id, TEntity entity)
         {
             try
             {
                 entity.Id = id;
                 await _service.UpdateAsync(entity);
-                return this.GenerateHateoasLinks(entity);
+                return GenerateHateoasLinks(entity);
             }
             catch (Exception ex)
             {
-                return this.HandleException(ex);
+                return HandleException(ex);
             }
         }
 
@@ -103,17 +118,21 @@ namespace APIBaseLib.Controllers
         /// <param name="fieldsToUpdate">The dictionary of fields to update.</param>
         /// <returns>The updated entity.</returns>
         [HttpPatch("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<TEntity>> UpdateFields(int id, Dictionary<string, object> fieldsToUpdate)
         {
             try
             {
                 var entity = await _service.GetByIdAsync(id);
                 await _service.UpdateFieldsAsync(entity, fieldsToUpdate);
-                return this.GenerateHateoasLinks(entity);
+                return GenerateHateoasLinks(entity);
             }
             catch (Exception ex)
             {
-                return this.HandleException(ex);
+                return HandleException(ex);
             }
         }
 
@@ -123,6 +142,10 @@ namespace APIBaseLib.Controllers
         /// <param name="id">The ID of the entity to delete.</param>
         /// <returns>A no-content response.</returns>
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete(int id)
         {
             await _service.DeleteAsync(id);
@@ -164,15 +187,20 @@ namespace APIBaseLib.Controllers
 
         private ActionResult HandleException(Exception ex)
         {
-            switch (ex)
+            var (statusCode, errorCode, message) = ex switch
             {
-                case ArgumentException argEx:
-                    return BadRequest(argEx.Message);
-                case KeyNotFoundException notFoundEx:
-                    return NotFound(notFoundEx.Message);
-                default:
-                    return StatusCode(500, "An error occurred while processing the request.");
-            }
+                ArgumentException argEx => (StatusCodes.Status400BadRequest, "INVALID_ARGUMENT", argEx.Message),
+                KeyNotFoundException notFoundEx => (StatusCodes.Status404NotFound, "NOT_FOUND", notFoundEx.Message),
+                _ => (StatusCodes.Status500InternalServerError, "INTERNAL_ERROR", "An error occurred while processing the request.")
+            };
+
+            var response = new
+            {
+                errorCode,
+                message
+            };
+
+            return StatusCode(statusCode, response);
         }
     }
 }

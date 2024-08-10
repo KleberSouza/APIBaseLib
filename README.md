@@ -2,6 +2,31 @@
 
 APIBaseLib é uma biblioteca base em .NET para a construção de APIs RESTful. Este projeto fornece uma estrutura genérica para criar serviços e controladores com suporte a paginação, operações CRUD e HATEOAS.
 
+## Intalação
+
+Para instalar a APIBaseLib em seu projeto .NET, siga estas etapas:
+
+1. Abra o terminal na pasta raiz do seu projeto.
+
+2. Execute o seguinte comando:
+
+  ```bash
+  dotnet add package APIBaseLib --version 1.0.1
+  ```
+
+  Este comando adicionará a versão 1.0.0 da APIBaseLib ao seu projeto.
+
+3. Verifique se a referência foi adicionada corretamente no arquivo .csproj do seu projeto.
+
+## Uso Inicial
+
+Após a instalação, você pode começar a usar a APIBaseLib em seu projeto:
+
+1. Adicione a seguinte diretiva using no topo dos arquivos onde você deseja usar a biblioteca:
+
+```csharp
+using APIBaseLib;
+
 ## Funcionalidades
 
 - CRUD genérico para qualquer entidade que herde de `BaseEntity`.
@@ -12,7 +37,7 @@ APIBaseLib é uma biblioteca base em .NET para a construção de APIs RESTful. E
 
 ## Requisitos
 
-- .NET 6.0 ou superior.
+- .NET 8.0 ou superior.
 - Docker.
 - PostgreSQL.
 
