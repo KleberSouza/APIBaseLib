@@ -28,7 +28,7 @@ namespace APIBaseLib.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<TEntity>>> GetAll(int page = 1, int pageSize = 10)
+        public virtual async Task<ActionResult<IEnumerable<TEntity>>> GetAll(int page = 1, int pageSize = 10)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace APIBaseLib.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<TEntity>> GetById(int id)
+        public virtual async Task<ActionResult<TEntity>> GetById(int id)
         {
             try
             {
@@ -73,7 +73,7 @@ namespace APIBaseLib.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<TEntity>> Create(TEntity entity)
+        public virtual async Task<ActionResult<TEntity>> Create(TEntity entity)
         {
             try
             {
@@ -97,7 +97,7 @@ namespace APIBaseLib.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<TEntity>> Update(int id, TEntity entity)
+        public virtual async Task<ActionResult<TEntity>> Update(int id, TEntity entity)
         {
             try
             {
@@ -122,7 +122,7 @@ namespace APIBaseLib.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<TEntity>> UpdateFields(int id, Dictionary<string, object> fieldsToUpdate)
+        public virtual async Task<ActionResult<TEntity>> UpdateFields(int id, Dictionary<string, object> fieldsToUpdate)
         {
             try
             {
@@ -146,7 +146,7 @@ namespace APIBaseLib.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Delete(int id)
+        public virtual async Task<IActionResult> Delete(int id)
         {
             await _service.DeleteAsync(id);
             return NoContent();
