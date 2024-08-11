@@ -11,10 +11,10 @@ Para instalar a APIBaseLib em seu projeto .NET, siga estas etapas:
 2. Execute o seguinte comando:
 
   ```bash
-  dotnet add package APIBaseLib --version 1.0.1
+  dotnet add package APIBaseLib --version 1.0.5
   ```
 
-  Este comando adicionará a versão 1.0.0 da APIBaseLib ao seu projeto.
+  Este comando adicionará a versão 1.0.5 da APIBaseLib ao seu projeto.
 
 3. Verifique se a referência foi adicionada corretamente no arquivo .csproj do seu projeto.
 

@@ -30,6 +30,11 @@ namespace APIBaseLib.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public virtual async Task<ActionResult<IEnumerable<TEntity>>> GetAll(int page = 1, int pageSize = 10)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             try
             {
                 var entities = await _service.GetAllAsync(page, pageSize);
@@ -53,6 +58,11 @@ namespace APIBaseLib.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public virtual async Task<ActionResult<TEntity>> GetById(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             try
             {
                 var entity = await _service.GetByIdAsync(id);
@@ -75,6 +85,11 @@ namespace APIBaseLib.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public virtual async Task<ActionResult<TEntity>> Create(TEntity entity)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             try
             {
                 await _service.AddAsync(entity);
@@ -99,6 +114,11 @@ namespace APIBaseLib.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public virtual async Task<ActionResult<TEntity>> Update(int id, TEntity entity)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             try
             {
                 entity.Id = id;
@@ -124,6 +144,11 @@ namespace APIBaseLib.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public virtual async Task<ActionResult<TEntity>> UpdateFields(int id, Dictionary<string, object> fieldsToUpdate)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             try
             {
                 var entity = await _service.GetByIdAsync(id);
@@ -148,6 +173,11 @@ namespace APIBaseLib.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public virtual async Task<IActionResult> Delete(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             try
             {
                 await _service.DeleteAsync(id);
@@ -159,8 +189,9 @@ namespace APIBaseLib.Controllers
             }
         }
 
-        public ActionResult<T> GenerateHateoasLinks<T>(T entity)
+        protected ActionResult<T> GenerateHateoasLinks<T>(T entity)
         {
+
             var entityType = typeof(T);
             var idProperty = entityType.GetProperty("Id");
 
@@ -178,7 +209,7 @@ namespace APIBaseLib.Controllers
             return Ok(result);
         }
 
-        public ActionResult<IEnumerable<T>> GenerateHateoasLinks<T>(IEnumerable<T> entities)
+        protected ActionResult<IEnumerable<T>> GenerateHateoasLinks<T>(IEnumerable<T> entities)
         {
             var result = new
             {
@@ -192,7 +223,7 @@ namespace APIBaseLib.Controllers
             return Ok(result);
         }
 
-        public ActionResult HandleException(Exception ex)
+        protected ActionResult HandleException(Exception ex)
         {
             var (statusCode, errorCode, message) = ex switch
             {
