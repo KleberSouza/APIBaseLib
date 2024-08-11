@@ -159,7 +159,7 @@ namespace APIBaseLib.Controllers
             }
         }
 
-        private ActionResult<T> GenerateHateoasLinks<T>(T entity)
+        public ActionResult<T> GenerateHateoasLinks<T>(T entity)
         {
             var entityType = typeof(T);
             var idProperty = entityType.GetProperty("Id");
@@ -178,7 +178,7 @@ namespace APIBaseLib.Controllers
             return Ok(result);
         }
 
-        private ActionResult<IEnumerable<T>> GenerateHateoasLinks<T>(IEnumerable<T> entities)
+        public ActionResult<IEnumerable<T>> GenerateHateoasLinks<T>(IEnumerable<T> entities)
         {
             var result = new
             {
@@ -192,7 +192,7 @@ namespace APIBaseLib.Controllers
             return Ok(result);
         }
 
-        private ActionResult HandleException(Exception ex)
+        public ActionResult HandleException(Exception ex)
         {
             var (statusCode, errorCode, message) = ex switch
             {
