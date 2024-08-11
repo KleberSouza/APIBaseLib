@@ -139,19 +139,19 @@ namespace APIBaseLib.Services
             }
         }
 
-        private void ValidateId(int id)
+        public void ValidateId(int id)
         {
             if (id <= 0)
                 throw new ArgumentException("ID must be greater than 0.");
         }
 
-        private void ValidateEntity(TEntity entity)
+        public void ValidateEntity(TEntity entity)
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity), "Entity cannot be null.");
         }
 
-        private void ValidatePaginationParameters(int page, int pageSize)
+        public void ValidatePaginationParameters(int page, int pageSize)
         {
             if (page < 1)
                 throw new ArgumentException("Page number must be greater than or equal to 1.");
@@ -160,7 +160,7 @@ namespace APIBaseLib.Services
                 throw new ArgumentException("Page size must be greater than or equal to 1.");
         }
 
-        private void ValidateFieldsToUpdate(Dictionary<string, object> fieldsToUpdate)
+        public void ValidateFieldsToUpdate(Dictionary<string, object> fieldsToUpdate)
         {
             if (fieldsToUpdate == null || fieldsToUpdate.Count == 0)
                 throw new ArgumentException("The 'fieldsToUpdate' dictionary cannot be null or empty.");

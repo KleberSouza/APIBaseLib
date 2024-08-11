@@ -12,11 +12,11 @@ using System.Reflection;
 
 [assembly: System.Reflection.AssemblyCompanyAttribute("APIBaseLib")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
-[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.2.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.2+c5a0bced2469390ad7a1ed101d89eef9437a0cf5")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.3.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.3+a528ac69f49f81e96e285e2471931bb9129998fa")]
 [assembly: System.Reflection.AssemblyProductAttribute("APIBaseLib")]
 [assembly: System.Reflection.AssemblyTitleAttribute("APIBaseLib")]
-[assembly: System.Reflection.AssemblyVersionAttribute("1.0.2.0")]
+[assembly: System.Reflection.AssemblyVersionAttribute("1.0.3.0")]
 
 // Gerado pela classe WriteCodeFragment do MSBuild.
 

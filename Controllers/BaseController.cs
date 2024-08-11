@@ -78,7 +78,7 @@ namespace APIBaseLib.Controllers
             try
             {
                 await _service.AddAsync(entity);
-                return CreatedAtAction(nameof(GetById), new { id = entity.Id }, this.GenerateHateoasLinks(entity));
+                return CreatedAtAction(nameof(GetById), new { id = entity.Id }, GenerateHateoasLinks(entity));
             }
             catch (Exception ex)
             {
@@ -148,8 +148,15 @@ namespace APIBaseLib.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public virtual async Task<IActionResult> Delete(int id)
         {
-            await _service.DeleteAsync(id);
-            return NoContent();
+            try
+            {
+                await _service.DeleteAsync(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
         }
 
         private ActionResult<T> GenerateHateoasLinks<T>(T entity)
